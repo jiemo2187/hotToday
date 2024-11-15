@@ -3,4 +3,18 @@ name = "hotToday"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "acfun"
+path = "bin/acfun.rs"
+
 [dependencies]
+reqwest = { version = "0.12.9", features = ["json"] }
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = "1.0.132"
+tokio = { version = "1.41.1", features = ["full"] }
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
