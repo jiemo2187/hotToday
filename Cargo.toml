@@ -11,6 +11,10 @@ path = "src/main.rs"
 name = "acfun"
 path = "bin/acfun.rs"
 
+[[bin]]
+name = "anquanke"
+path = "bin/anquanke.rs"
+
 [dependencies]
 reqwest = { version = "0.12.9", features = ["json"] }
 serde = { version = "1.0.215", features = ["derive"] }

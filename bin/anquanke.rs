@@ -4,21 +4,25 @@ use serde::Serialize;
 use tracing::info;
 use tracing::Level;
 
-/// AcFun RUL
-const URL : &str = "https://www.acfun.cn/rest/pc-direct/rank/channel?channelId=&subChannelId=&rankLimit=30&rankPeriod=DAY";
+/// anquanke RUL
+const URL: &str = "https://www.anquanke.com/webapi/api/index/top/list";
 
 #[derive(Default, Debug, Clone, PartialEq, Deserialize, Serialize)]
-pub struct AcFunResponse {
-    #[serde(rename = "rankList")]
-    pub rank_list: Vec<Rank>,
+pub struct Response {
+    pub data: Data,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Deserialize, Serialize)]
+pub struct Data {
+    pub list: Vec<Item>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Rank {
-    pub content_title: String,
-    pub share_url: String,
-    pub view_count: u32,
+pub struct Item {
+    pub rank: u32,
+    pub title: String,
+    pub url: String,
 }
 
 #[tokio::main]
@@ -27,8 +31,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let client = ClientBuilder::default().build()?;
     let resp = client.get(URL).send().await?;
-    let body = resp.json::<AcFunResponse>().await?;
+    let body = resp.json::<Response>().await?;
 
-    info!("{:?}", body.rank_list);
+    info!("{:?}", body.data.list);
     Ok(())
 }
