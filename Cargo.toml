@@ -23,6 +23,10 @@ path = "bin/baidu.rs"
 name = "baijing"
 path = "bin/baijing.rs"
 
+[[bin]]
+name = "crypto"
+path = "bin/crypto.rs"
+
 [dependencies]
 regex = "1.11.1"
 reqwest = { version = "0.12.9", features = ["json"] }
