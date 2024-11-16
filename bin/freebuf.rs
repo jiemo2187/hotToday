@@ -2,14 +2,15 @@ use reqwest::header::HeaderMap;
 use reqwest::header::HeaderValue;
 use reqwest::header::USER_AGENT;
 use reqwest::ClientBuilder;
+use scraper::Element;
 use scraper::Html;
 use scraper::Selector;
 use serde_json::json;
 use tracing::info;
 use tracing::Level;
 
-/// pojie 吾爱破解 RUL
-const URL: &str = "https://www.52pojie.cn/forum.php?mod=guide&view=hot";
+/// freebuf FreeBuf RUL
+const URL: &str = "https://www.freebuf.com/news";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -24,25 +25,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut hot_data = Vec::new();
 
     let html = Html::parse_document(&body);
-    let tbody_selector = Selector::parse("#threadlist table>tbody")?;
-    let a_selector = Selector::parse("th>a")?;
-    let em_selector = Selector::parse("td.num em")?;
-    for tbody in html.select(&tbody_selector) {
-        let title = tbody
-            .select(&a_selector)
+    let div_selector = Selector::parse("div>.header-title~div")?;
+    let title_selector = Selector::parse("span.title")?;
+    let a_selector = Selector::parse("a")?;
+    let hot_selector = Selector::parse("div>p.bottom-right")?;
+    let span_selector = Selector::parse("a>span")?;
+    for div in html.select(&div_selector) {
+        let title = div
+            .select(&title_selector)
             .next()
             .map(|l| l.text().collect::<String>())
             .unwrap_or_default();
-        let uri = tbody
-            .select(&a_selector)
-            .next()
-            .and_then(|l| l.value().attr("href"))
+        let uri = div
+            .parent_element()
+            .and_then(|p| {
+                p.select(&a_selector)
+                    .next()
+                    .and_then(|l| l.value().attr("href"))
+            })
             .unwrap_or_default();
 
-        let hot = tbody
-            .select(&em_selector)
+        let hot = div
+            .select(&hot_selector)
             .next()
-            .map(|it| it.text().collect::<String>())
+            .and_then(|it| {
+                it.select(&span_selector)
+                    .next()
+                    .map(|s| s.text().collect::<String>())
+            })
             .unwrap_or_default();
 
         let url = url::Url::parse(URL)?.join(uri)?;

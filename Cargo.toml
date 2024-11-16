@@ -47,6 +47,10 @@ path = "bin/douban.rs"
 name = "pojie"
 path = "bin/pojie.rs"
 
+[[bin]]
+name = "freebuf"
+path = "bin/freebuf.rs"
+
 
 [dependencies]
 regex = "1.11.1"
