@@ -39,6 +39,10 @@ path = "bin/dsb.rs"
 name = "diyicaijing"
 path = "bin/diyicaijing.rs"
 
+[[bin]]
+name = "douban"
+path = "bin/douban.rs"
+
 [dependencies]
 regex = "1.11.1"
 reqwest = { version = "0.12.9", features = ["json"] }
