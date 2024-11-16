@@ -43,6 +43,11 @@ path = "bin/diyicaijing.rs"
 name = "douban"
 path = "bin/douban.rs"
 
+[[bin]]
+name = "pojie"
+path = "bin/pojie.rs"
+
+
 [dependencies]
 regex = "1.11.1"
 reqwest = { version = "0.12.9", features = ["json"] }
@@ -52,3 +57,4 @@ serde_json = "1.0.132"
 tokio = { version = "1.41.1", features = ["full"] }
 tracing = "0.1.40"
 tracing-subscriber = "0.3.18"
+url = "2.5.3"
