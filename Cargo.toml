@@ -51,6 +51,9 @@ path = "bin/pojie.rs"
 name = "freebuf"
 path = "bin/freebuf.rs"
 
+[[bin]]
+name = "github"
+path = "bin/github.rs"
 
 [dependencies]
 regex = "1.11.1"
